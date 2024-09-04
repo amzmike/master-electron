@@ -1,9 +1,6 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
-const colors = require('colors');
-
-console.log(colors.rainbow('Hello, World!')); // outputs green text
 
 app.disableHardwareAcceleration();
 
@@ -19,15 +16,15 @@ function createWindow () {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      enableRemoteModule: true,
-      nodeIntegration: true,
-      contextIsolation: false,
-      nodeIntegrationInWorker: true,
-      nodeIntegrationInSubFrames: true
+//       enableRemoteModule: true,
+//       nodeIntegration: true,
+//       contextIsolation: false,
+//       nodeIntegrationInWorker: true,
+//       nodeIntegrationInSubFrames: true
     }
   })
 
-  require("@electron/remote/main").enable(mainWindow.webContents)
+//   require("@electron/remote/main").enable(mainWindow.webContents)
 
   mainWindow.setTitle('RKS-GUI')
   mainWindow.loadURL(path.join('file://', __dirname, 'index.html'))
@@ -48,6 +45,10 @@ function createWindow () {
   mainWindow.on('move', () => {
     let windowBounds = mainWindow.getBounds()
     devWindow.setPosition(windowBounds.x + windowBounds.width, windowBounds.y)
+  })
+
+  mainWindow.on('closed', function () {
+    mainWindow = null;
   })
 }
 

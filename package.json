@@ -1,24 +1,23 @@
 {
-  "name": "master-electron",
+  "name": "6x-gui",
   "version": "1.0.0",
-  "description": "Master Electron Course Code",
+  "description": "RKS GUI for 6X",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "watch": "nodemon --exec electron .",
-    "reset": "git reset --hard"
+    "reset": "git reset --hard",
+    "debug": "electron --inspect-brk=5858 ."
   },
-  "repository": "https://github.com/stackacademytv/master-electron",
+  "repository": "https://github.com/amzmike/master-electron",
   "keywords": [
-    "Electron",
-    "Master Electron",
+    "RKS",
+    "6X",
     "demo"
   ],
-  "author": "GitHub, Stackacademytv",
-  "license": "CC0-1.0",
+  "author": "Bachar",
+  "license": "MIT",
   "dependencies": {
-    "@electron/remote": "^2.1.2",
-    "colors": "^1.4.0",
     "electron": "^32.0.1",
     "nodemon": "^3.1.4"
   }
