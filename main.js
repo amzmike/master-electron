@@ -1,22 +1,54 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
+const colors = require('colors');
+
+console.log(colors.rainbow('Hello, World!')); // outputs green text
+
+app.disableHardwareAcceleration();
+
+let mainWindow = null;
+let devWindow = null;
 
 function createWindow () {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
+    x: 0,
+    y: 0,
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      enableRemoteModule: true,
+      nodeIntegration: true,
+      contextIsolation: false,
+      nodeIntegrationInWorker: true,
+      nodeIntegrationInSubFrames: true
     }
   })
 
+  require("@electron/remote/main").enable(mainWindow.webContents)
+
+  mainWindow.setTitle('RKS-GUI')
+  mainWindow.loadURL(path.join('file://', __dirname, 'index.html'))
+
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  // mainWindow.loadFile('index.html')
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  devWindow = new BrowserWindow()
+  mainWindow.webContents.setDevToolsWebContents(devWindow.webContents)
+  mainWindow.webContents.openDevTools({mode: 'detach'})
+  mainWindow.webContents.once('did-finish-load', () => {
+    let windowBounds = mainWindow.getBounds();
+    devWindow.setPosition(windowBounds.x + windowBounds.width, windowBounds.y)
+  });
+
+  // Set the devtools position when the paretn window is moved
+  mainWindow.on('move', () => {
+    let windowBounds = mainWindow.getBounds()
+    devWindow.setPosition(windowBounds.x + windowBounds.width, windowBounds.y)
+  })
 }
 
 // This method will be called when Electron has finished
@@ -38,6 +70,8 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
+
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
