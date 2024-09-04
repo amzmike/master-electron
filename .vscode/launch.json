@@ -8,10 +8,11 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}\\main.js"
+      "program": "${workspaceFolder}\\."
     }
   ]
 }

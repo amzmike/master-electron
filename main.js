@@ -7,7 +7,6 @@ const allowDev = false;
 // app.disableHardwareAcceleration();
 
 let mainWindow = null;
-let secondaryWindow = null;
 
 let devWindow = null;
 
@@ -15,8 +14,9 @@ app.name = 'RKS-GUI'
 app.version = '0.0.1'
 
 function createWindow () {
-  // Create the browser window.
+
   mainWindow = new BrowserWindow({
+    frame: false,
     x: 0,
     y: 0,
     width: 1600,
@@ -31,22 +31,8 @@ function createWindow () {
     }
   })
 
-  secondaryWindow = new BrowserWindow({
-    width: 600,
-    height: 400,
-    webPreferences: {
-      nodeIntegration: true
-    },
-    parent: mainWindow,
-    modal: true,
-  })
-
-
-//   require("@electron/remote/main").enable(mainWindow.webContents)
-
   mainWindow.setTitle('RKS-GUI')
   mainWindow.loadFile(path.join(__dirname, 'index.html'))
-  secondaryWindow.loadFile(path.join(__dirname, 'secondary.html'))
 
   // Open the DevTools.
   if (allowDev) {
@@ -66,10 +52,6 @@ function createWindow () {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
-  })
-
-  secondaryWindow.on('closed', () => {
-    secondaryWindow = null;
   })
 
   if (devWindow) {
