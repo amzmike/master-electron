@@ -16,7 +16,6 @@ app.version = '0.0.1'
 function createWindow () {
 
   mainWindow = new BrowserWindow({
-    frame: false,
     x: 0,
     y: 0,
     width: 1600,
